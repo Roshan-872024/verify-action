@@ -1,18 +1,25 @@
-name: Verify Email Step
+name: Cache Example
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:   # allows manual run from Actions UI
+  workflow_dispatch:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: 22f1000684@ds.study.iitm.ac.in
-        run: |
-          echo "This step's name contains the requested email address"
-          echo "Hello, world!"
+      # Cache step
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/dependencies
+          key: cache-17e3297
+
+      - name: prime-cache-17e3297
+        run: echo "Cache hit? ${{ steps.cache.outputs.cache-hit }}"
+
